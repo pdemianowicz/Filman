@@ -1,0 +1,35 @@
+// Reset
+@import "helpers/reset";
+
+// Fonts
+@import "base/fonts";
+
+// Variables
+@import "base/variables";
+
+// Helpers
+@import "helpers/functions";
+@import "helpers/mixins";
+@import "helpers/breakpoints";
+
+// Accessibility
+@import "helpers/accessibility";
+
+// Base
+@import "base/base";
+@import "base/typography";
+
+// Components
+@import "components/button";
+@import "components/search";
+@import "components/slider";
+
+// Structure
+@import "layouts/nav";
+@import "layouts/main";
+@import "layouts/footer";
+
+// Pages
+@import "pages/generes";
+@import "pages/movies";
+@import "pages/movieDetail";

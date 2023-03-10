@@ -1,0 +1,25 @@
+.genres {
+  display: flex;
+  text-align: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+
+  a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 17.5rem;
+    height: 17.5rem;
+    border-radius: 0.75rem;
+    background-color: #171e31;
+    font-size: 2rem;
+    font-weight: 500;
+    flex-grow: 1;
+    padding: 2rem;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #fc4747;
+    }
+  }
+}

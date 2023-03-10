@@ -1,0 +1,19 @@
+$small: 48em;
+// $medium: 59em;
+$medium: 1200px;
+
+$breakpoints: (
+  small: $small,
+  medium: $medium,
+);
+
+// $breakpoints: (
+//   "small": 320px,
+//   "medium": 768px,
+//   "large": 1024px,
+// );
+
+// $sm: 576px;
+// $md: 768px;
+// $lg: 992px;
+// $xl: 1200px;

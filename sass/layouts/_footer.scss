@@ -1,0 +1,15 @@
+.footer {
+  text-align: center;
+  color: #5a6a90;
+  font-size: 1.4rem;
+  font-weight: 500;
+  padding: 2.75rem;
+  @include mq(small) {
+    margin-left: 12rem;
+  }
+
+  img {
+    width: 15rem;
+    margin: 0 auto;
+  }
+}

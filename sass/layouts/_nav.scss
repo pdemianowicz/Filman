@@ -1,0 +1,65 @@
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #fff;
+  background-color: #171e31;
+  padding: 2rem;
+  @include mq(small) {
+    position: fixed;
+    height: 84vh;
+    top: 0;
+    left: 0;
+    flex-direction: column;
+    padding: 3.5rem 2.5rem;
+    border-radius: 10px;
+    margin-top: 2.5rem;
+    margin-left: 2.5rem;
+  }
+
+  &__logo {
+    cursor: pointer;
+  }
+
+  &__main-nav {
+    display: inline-flex;
+    @include mq(small) {
+      display: block;
+    }
+    color: #5a6a90;
+
+    .nav__icon-main,
+    .nav__icon-movie,
+    .nav__icon-tv {
+      display: block;
+      padding: 0 2rem;
+      @include mq(small) {
+        padding: 3rem 0;
+      }
+      cursor: pointer;
+
+      svg {
+        display: block;
+        width: 1.9rem;
+        height: 1.9rem;
+        @include mq(small) {
+          width: 2.2rem;
+          height: 2.2rem;
+        }
+      }
+
+      &:hover {
+        color: #fc4747;
+      }
+    }
+  }
+
+  &__user {
+    width: 2.6rem;
+    cursor: pointer;
+  }
+}
+
+.active {
+  color: #f7f5f5;
+}

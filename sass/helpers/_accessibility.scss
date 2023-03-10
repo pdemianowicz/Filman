@@ -1,0 +1,50 @@
+// A hidden screen reader texts for readers, focus elements for
+// vision impaired and other useful a11y CSS hacks.
+
+/**
+ * Accessibility
+ */
+@mixin screen-reader-text() {
+  border: 0;
+  clip: rect(1px, 1px, 1px, 1px);
+  clip-path: inset(50%);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+  word-wrap: normal !important;
+
+  &:focus-within {
+    background-color: #f1f1f1;
+    border-radius: 3px;
+    box-shadow: 0 0 2px 2px rgb(22 22 22 / 0.6);
+    clip: auto !important;
+    clip-path: none;
+    display: block;
+    font-size: 1.7rem;
+    font-weight: bold;
+    height: auto;
+    left: 5px;
+    line-height: normal;
+    padding: 15px 23px 14px;
+    text-decoration: none;
+    top: 5px;
+    width: auto;
+    z-index: 100000;
+    outline: none;
+  }
+}
+
+.screen-reader-text.skip-link:focus {
+  clip-path: none;
+}
+
+.screen-reader-text {
+  @include screen-reader-text();
+}
+
+.skip-link {
+  margin: 5px;
+}
