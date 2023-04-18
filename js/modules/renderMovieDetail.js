@@ -1,9 +1,9 @@
 import { apiKey, baseurl, w500 } from "./api";
 
-function renderMovieDetail(id) {
+function renderDetail(id, type) {
   (async function getData() {
-    const movieDetailApi = `https://api.themoviedb.org/3/movie/${id}?api_key=${apiKey}&language=en-US`;
-    const movieCreditsApi = `https://api.themoviedb.org/3/movie/${id}/credits?api_key=${apiKey}&language=en-US`;
+    const movieDetailApi = `https://api.themoviedb.org/3/${type}/${id}?api_key=${apiKey}&language=en-US`;
+    const movieCreditsApi = `https://api.themoviedb.org/3/${type}/${id}/credits?api_key=${apiKey}&language=en-US`;
     const responses = await Promise.all([fetch(movieDetailApi), fetch(movieCreditsApi)]);
     const movieDetail = await responses[0].json();
     const movieCredits = await responses[1].json();
@@ -12,26 +12,20 @@ function renderMovieDetail(id) {
   })();
 
   function showMovieDetail(data, credits) {
-    const img = data.poster_path;
-    const title = data.title;
+    const img = data.poster_path || data.backdrop_path;
+    const title = data.title || data.name;
     const tagline = data.tagline;
     const vote = data.vote_average.toFixed(1);
-    const lenght = data.runtime;
-    const date = data.release_date;
+    const lenght = data.runtime || "N/A";
+    const date = data.release_date || data.first_air_date;
     const status = data.status;
-    const genres = Object.values(data.genres).map((genre) => genre.name) || []; // array
-    const genresTemplate = genres
-      .map((genre) => {
-        return `<li>${genre}</li>`;
-      })
-      .join(" ");
+    const genresName = Object.values(data.genres).map((genre) => genre.name) || []; // array
+    // const genresId = Object.values(data.genres).map((genre) => genre.id) || []; // array
+
+    const genresTemplate = genresName.map((genre) => `<li>${genre}</li>`).join(" ");
     const overview = data.overview;
     const cast = Object.values(credits.cast).map((actor) => actor.name) || []; // array
-    const castTemplate = cast
-      .map((actor) => {
-        return `<li>${actor}</li>`;
-      })
-      .join(" ");
+    const castTemplate = cast.map((actor) => `<li>${actor}</li>`).join(" ");
 
     let html = `
     <section class="movie-detail">
@@ -59,4 +53,4 @@ function renderMovieDetail(id) {
   }
 }
 
-export default renderMovieDetail;
+export default renderDetail;

@@ -1,13 +1,12 @@
 // Import modules
 import { apiKey, baseurl, w500 } from "./modules/api";
+import clear from "./modules/clear";
 import showSearch from "./modules/showSearch";
 import renderSection from "./modules/renderSection";
 import renderMovies from "./modules/renderMovies";
 import showTrending from "./modules/showTrending";
-import clear from "./modules/clear";
-import renderMovieDetail from "./modules/renderMovieDetail";
-import { genresMovie, genresTv } from "./modules/genres";
-import renderQuery from "./modules/getData";
+import renderDetail from "./modules/renderMovieDetail";
+import showGenres from "./modules/showGenres";
 
 function mainApp() {
   (async function getData() {
@@ -83,64 +82,80 @@ function mainApp() {
     ul.innerHTML = renderMovies(data);
   }
 }
-showSearch();
 
-document.querySelector("form").addEventListener("click", (e) => {
-  e.preventDefault();
+const buttons = document.querySelectorAll(".nav__main-nav div");
+buttons.forEach((button) => {
+  button.addEventListener("click", (e) => {
+    const btn = e.currentTarget;
+    const btnValue = btn.id;
+    activateClickedButton(btn);
 
-  const input = document.querySelector("form input[type='search']");
-
-  // input.addEventListener("keyup", () => {
-  //   const searchText = input.value.toLowerCase();
-  //   console.log(searchText);
-
-  //   clear();
-  //   renderQuery(searchText);
-  // });
-
-  input.addEventListener("keypress", (e) => {
-    const searchText = input.value.toLowerCase();
-    console.log(searchText);
-
-    if (e.key === "Enter") {
-      clear();
-      showSearch();
-      renderQuery(searchText);
-    }
+    clear();
+    showSearch();
+    btnValue !== "btn-main" ? (btnValue !== "btn-movie" ? showGenres("tv") : showGenres("movie")) : mainApp();
   });
 });
 
-mainApp();
+function activateClickedButton(btn) {
+  buttons.forEach((b) => b.classList.remove("active"));
+  btn.classList.add("active");
+}
+buttons[0].click(); // default active main button
 
-function renderDetailCard() {
-  const items = document.querySelectorAll(".item");
-  items.forEach((e) => {
-    e.addEventListener("click", (event) => {
-      const key = event.currentTarget;
-      const keyValue = key.textContent;
-      const type = key.dataset.id;
-
+function see(data) {
+  document.querySelectorAll(".section__see-more").forEach((btn) => {
+    btn.addEventListener("click", () => {
       clear();
       showSearch();
-      renderMovieDetail(type);
+      render2(data);
     });
   });
 }
 
-document.querySelector(".nav__icon-main").addEventListener("click", () => {
-  clear();
-  showSearch();
-  mainApp();
-});
+function render2(data) {
+  let movies = data.results;
+  movies = movies ? movies.filter((item) => item.backdrop_path !== null) : []; // check img
+  let html = "";
 
-document.querySelector(".nav__icon-movie").addEventListener("click", () => {
-  clear();
-  showSearch();
-  genresMovie();
-});
+  movies.forEach((movie) => {
+    const id = movie.id;
+    const title = movie.title || movie.name;
+    const date = movie.release_date || movie.first_air_date || " ";
+    const img = movie.backdrop_path || [];
 
-document.querySelector(".nav__icon-tv").addEventListener("click", () => {
-  clear();
-  showSearch();
-  genresTv();
-});
+    let htmlSegment = `
+    <li class='item' data-id='${id}'>
+      <div class='image'><img src="${baseurl}${w500}${img}"></div>
+      <div class='meta'>
+        <div class='meta-des'><p>${date.substring(0, date.length - 6)}</p><span></span><p>Movie</p></div>
+        <h2 class='meta-title'>${title}</h2>
+      </div>
+    </li>`;
+    html += htmlSegment;
+  });
+
+  const h1 = document.createElement("h1");
+  h1.innerHTML = `<h1 class="movies-title">Results for "</h1>`;
+  document.querySelector(".container").appendChild(h1);
+
+  const ul = document.createElement("ul");
+  ul.classList.add("movies");
+  document.querySelector(".container").appendChild(ul);
+  ul.innerHTML = html;
+}
+
+function renderDetailCard() {
+  const items = document.querySelectorAll("li[data-id]");
+  items.forEach((e) => {
+    e.addEventListener("click", (event) => {
+      const key = event.currentTarget;
+      const keyValue = key.textContent;
+      const id = key.dataset.id;
+      const type = e.querySelector(".meta-type").innerHTML !== "TV Series" ? "movie" : "tv";
+
+      clear();
+      showSearch();
+      renderDetail(id, type);
+    });
+  });
+}

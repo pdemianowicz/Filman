@@ -39,7 +39,13 @@
     img {
       border-radius: 8px;
       position: relative;
-      object-position: top;
+    }
+
+    li {
+      cursor: pointer;
+      &:hover .meta-title {
+        color: #7889b5;
+      }
     }
 
     .swiper {
@@ -102,10 +108,6 @@
     }
 
     .item {
-      &:hover .meta-title {
-        color: #7889b5;
-      }
-
       .meta {
         display: flex;
         flex-direction: column;

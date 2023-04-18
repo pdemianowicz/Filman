@@ -7,10 +7,11 @@ function renderSection(title, type) {
     <h2>${title}</h2>
     <span>${type}</span>
     </div>
-    <a class="section__see-more" href="#">See more</a>
+    <a class="section__see-more">See more</a>
   </div>`;
 
   document.querySelector(".container").appendChild(section);
+
   return section;
 }
 

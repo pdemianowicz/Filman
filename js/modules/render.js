@@ -1,25 +1,25 @@
 import { apiKey, baseurl, w500 } from "./api";
 
-function render(name, id) {
+function render(name, id, type, pageNumber = 1) {
   (async function getData() {
-    const genreApi = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=${id}&with_watch_monetization_types=flatrate`;
+    const genreApi = `https://api.themoviedb.org/3/discover/${type}?api_key=${apiKey}&sort_by=popularity.desc&include_adult=false&include_video=false&page=${pageNumber}&with_genres=${id}`;
     const responses = await fetch(genreApi);
     const genre = await responses.json();
     showGenre(genre);
   })();
 
   function showGenre(data) {
-    console.log(data);
     let movies = data.results;
     let html = "";
 
     movies.forEach((movie) => {
-      const title = movie.title;
-      const date = movie.release_date;
-      const img = movie.backdrop_path;
+      const id = movie.id;
+      const title = movie.title || movie.name;
+      const date = movie.release_date || movie.first_air_date || " ";
+      const img = movie.backdrop_path || movie.poster_path;
 
       let htmlSegment = `
-      <li class='item'>
+      <li class='item' data-id='${id}'>
         <div class='image'><img src="${baseurl}${w500}${img}"></div>
         <div class='meta'>
           <div class='meta-des'><p>${date.substring(
@@ -40,6 +40,19 @@ function render(name, id) {
     ul.classList.add("movies");
     document.querySelector(".container").appendChild(ul);
     ul.innerHTML = html;
+
+    // const nav = document.createElement("nav");
+    // nav.classList.add("page-nav");
+    // nav.innerHTML = `
+    // <li class="prev">Prev</li>
+    // <li class="actual">Page ${data.page} of ${data.total_pages}</li>
+    // <li class="next">Next</li>
+    // `;
+    // document.querySelector(".container").appendChild(nav);
+
+    // document.querySelector(".next").addEventListener("click", () => {
+    //   pageNumber++;
+    // });
   }
 }
 

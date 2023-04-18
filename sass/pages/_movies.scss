@@ -4,22 +4,23 @@
 }
 
 .movies {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(285px, 1fr));
   gap: 3rem;
 
   .item {
-    width: 285px;
-    flex-grow: 1;
+    // width: 285px;
+    margin: 0 auto;
     &:hover .meta-title {
       color: #7889b5;
     }
 
     img {
       border-radius: 8px;
-      object-fit: cover;
-      width: 290px;
-      height: 162px;
+      // object-fit: cover;
+      // width: 290px;
+      // height: 162px;
+      cursor: pointer;
     }
 
     .meta {
@@ -52,6 +53,7 @@
       &-title {
         font-size: 1.8rem;
         text-transform: capitalize;
+        cursor: pointer;
       }
     }
   }

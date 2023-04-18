@@ -2,6 +2,7 @@ import { baseurl, w500 } from "./api";
 
 function renderMovies(data) {
   let movies = data.results;
+  movies = movies ? movies.filter((item) => item.backdrop_path !== null) : []; // check img
   let html = "";
 
   movies.slice(0, 6).forEach((movie) => {
@@ -19,7 +20,10 @@ function renderMovies(data) {
     <li class='item' data-id='${id}'>
       <div class='image'><img src="${baseurl}${w500}${img}"></div>
       <div class='meta'>
-        <div class='meta-des'><p>${date.substring(0, date.length - 6)}</p><span></span>${icon}<p>${typeMedia}</p></div>
+        <div class='meta-des'><p>${date.substring(
+          0,
+          date.length - 6
+        )}</p><span></span>${icon}<p class="meta-type">${typeMedia}</p></div>
         <h2 class='meta-title'>${title}</h2>
       </div>
     </li>`;

@@ -1,8 +1,18 @@
+import { apiKey } from "./api";
 import clear from "./clear";
 import showSearch from "./showSearch";
 import render from "./render";
 
-function showGenres(data) {
+function genres(type) {
+  (async function getData() {
+    const genresListApi = `https://api.themoviedb.org/3/genre/${type}/list?api_key=${apiKey}&language=en-US`;
+    const responses = await fetch(genresListApi);
+    const genresList = await responses.json();
+    showGenres(genresList, type);
+  })();
+}
+
+function showGenres(data, type) {
   let genres = data.genres;
   let html = "";
 
@@ -18,12 +28,12 @@ function showGenres(data) {
   div.addEventListener("click", (event) => {
     const key = event.target;
     const keyValue = key.textContent;
-    const type = key.dataset.id;
+    const id = key.dataset.id;
 
     clear();
     showSearch();
-    render(keyValue, type);
+    render(keyValue, id, type);
   });
 }
 
-export default showGenres;
+export default genres;
